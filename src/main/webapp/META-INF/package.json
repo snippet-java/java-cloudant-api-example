@@ -1,0 +1,8 @@
+{
+  "name": "Cloudant CRUD API",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snippet-java/java-cloudant-api-example"
+  }
+}

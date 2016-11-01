@@ -1,0 +1,16 @@
+---
+applications:
+- path: target/CloudantApiExample.war
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: java-cloudant-api-example
+  host: java-cloudant-api-${random-word}
+  disk_quota: 512M
+  buildpack: liberty-for-java
+  services:
+  - sample-cloudantNoSQLDB
+declared-services:
+  sample-cloudantNoSQLDB:
+    label: cloudantNoSQLDB
+    plan:  Lite
