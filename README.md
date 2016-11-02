@@ -39,8 +39,7 @@ Where else the method used in the `manifest.yml` is a previous way to create a s
 
 ### Running locally
 
-If you want to run the app locally, open CloudantConnectionService.java and enter manually username and password for Cloudant service
-(instead of getting from VCAP services)
+If you want to run the app locally, open credential.properties and enter username and password for Cloudant service
 
 
 ### Privacy Notice
