@@ -1,8 +1,8 @@
-package com.ibm.sample;
+package com.ibm.sample.student.cloudant;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,37 +13,32 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.org.lightcouch.NoDocumentException;
+import com.cloudant.http.Http;
+import com.cloudant.http.HttpConnection;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@WebServlet("/cloudant/read")
-public class Read extends HttpServlet {
+@WebServlet("/cloudant/list")
+public class List extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	CloudantClient client = CloudantConnectionService.getConnection();	
+    	CloudantConnectionService cloudantService = new CloudantConnectionService();
+    	CloudantClient client = cloudantService.getConnection();	
 		JsonObject output = new JsonObject();
-
-		String docId = request.getParameter("id");
-
-		try {
+	
+    	try {
 	    	String dbName = "student";
 	    	Database db = client.database(dbName, false);
 	
-	    	db.find(docId);
-	    	InputStream is = db.find(docId);
-			int i;
-			char c;
-			String doc = "";
-			while((i=is.read())!=-1)
-	         {
-	            c=(char)i;
-	            doc += c;
-	         }
-			JsonParser parser = new JsonParser();
-			output = parser.parse(doc).getAsJsonObject();
+	    	JsonObject credentials = cloudantService.getCredentials();
+	    	HttpConnection httpResponse = client.executeRequest(
+	    			Http.GET(new URL("https://" + credentials.get("username").getAsString() + ".cloudant.com/" + db.info().getDbName() + "/_all_docs")));
+	
+	    	JsonParser parser = new JsonParser(); 
+			output = parser.parse(httpResponse.responseAsString()).getAsJsonObject();
 	    	
     	} catch(NoDocumentException ex) {
     		output.addProperty("err", "No Database/Document found");

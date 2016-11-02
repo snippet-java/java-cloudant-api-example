@@ -1,4 +1,4 @@
-package com.ibm.sample;
+package com.ibm.sample.student.cloudant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,26 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cloudant.client.api.CloudantClient;
-import com.cloudant.client.org.lightcouch.PreconditionFailedException;
 import com.google.gson.JsonObject;
 
-@WebServlet("/cloudant/createdb")
-public class CreateDb extends HttpServlet {
+@WebServlet("/cloudant/deletedb")
+public class DeleteDb extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    	CloudantClient client = CloudantConnectionService.getConnection();
+    	CloudantClient client = new CloudantConnectionService().getConnection();
     	JsonObject output = new JsonObject();
     	
-		try {
-			String dbname = "student";
-			client.createDB(dbname);
-			output.addProperty("result", "Success created database " + dbname);
-		} catch(PreconditionFailedException ex) {
-			output.addProperty("err", ex.getReason());
-		} 
+		String dbname = "student";
+		client.deleteDB(dbname);
+		output.addProperty("result", "Database deleted ");
 		
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();

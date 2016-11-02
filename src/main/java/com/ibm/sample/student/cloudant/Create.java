@@ -1,4 +1,4 @@
-package com.ibm.sample;
+package com.ibm.sample.student.cloudant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,12 +16,11 @@ import com.google.gson.JsonObject;
 
 @WebServlet("/cloudant/create")
 public class Create extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	CloudantClient client = CloudantConnectionService.getConnection();
+    	CloudantClient client = new CloudantConnectionService().getConnection();
     	
     	//Create a dummy json document
     	JsonObject studentJson = new JsonObject();
@@ -59,4 +58,5 @@ public class Create extends HttpServlet {
     	return "ID#" + new Double(Math.floor(Math.random()*10000)).intValue();
     }
 
+    private static final long serialVersionUID = 1L;
 }

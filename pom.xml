@@ -9,7 +9,7 @@
         <relativePath></relativePath>
     </parent>
 
-    <groupId>com.ibm.sample</groupId>
+    <groupId>com.ibm.sample.student.cloudant</groupId>
     <artifactId>CloudantApiExample</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
