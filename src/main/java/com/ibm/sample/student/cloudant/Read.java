@@ -28,26 +28,31 @@ public class Read extends HttpServlet {
 
 		String docId = request.getParameter("id");
 
-		try {
-	    	String dbName = "student";
-	    	Database db = client.database(dbName, false);
-	
-	    	db.find(docId);
-	    	InputStream is = db.find(docId);
-			int i;
-			char c;
-			String doc = "";
-			while((i=is.read())!=-1)
-	         {
-	            c=(char)i;
-	            doc += c;
-	         }
-			JsonParser parser = new JsonParser();
-			output = parser.parse(doc).getAsJsonObject();
-	    	
-    	} catch(NoDocumentException ex) {
-    		output.addProperty("err", "No Database/Document found");
-    	}
+		if(docId == null || docId.isEmpty()) {
+			output.addProperty("err", "Please specify valid Doc ID");
+		}
+		else {
+			try {
+		    	String dbName = "student";
+		    	Database db = client.database(dbName, false);
+		
+		    	db.find(docId);
+		    	InputStream is = db.find(docId);
+				int i;
+				char c;
+				String doc = "";
+				while((i=is.read())!=-1)
+		         {
+		            c=(char)i;
+		            doc += c;
+		         }
+				JsonParser parser = new JsonParser();
+				output = parser.parse(doc).getAsJsonObject();
+		    	
+	    	} catch(NoDocumentException ex) {
+	    		output.addProperty("err", "No Database/Document found");
+	    	}
+		}
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		out.println(output);

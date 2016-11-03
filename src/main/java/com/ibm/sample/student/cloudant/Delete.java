@@ -22,9 +22,6 @@ public class Delete extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
     	
     	CloudantClient client = new CloudantConnectionService().getConnection();	
 		JsonObject output = new JsonObject();
@@ -60,6 +57,8 @@ public class Delete extends HttpServlet {
 	    		output.addProperty("err", ex.getReason());
 	    	} 
 		}
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
 		out.println(output);
     }
 
