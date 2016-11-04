@@ -10,6 +10,10 @@ stages:
   - name: Build
     type: builder
     artifact_dir: ""
+    build_type: maven
+    script: |-
+      #!/bin/bash
+      mvn -B package
 - name: "Deploy Stage"
   inputs:
   - type: job
