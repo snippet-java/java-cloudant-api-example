@@ -46,8 +46,7 @@ If you want to run the app locally, open credential.properties and enter usernam
 
 This package is configured to track deployments to IBM Bluemix and other Cloud Foundry platforms. The following information is sent to a Deployment Tracker service on each deployment:
 
-* Node.js package version
-* Node.js repository URL
+* Java repository URL
 * Application Name (application_name)
 * Space ID (space_id)
 * Application Version (application_version)
